@@ -1,9 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { Button } from 'reactstrap';
-import axios from 'axios';
+import './assets/styles/custom-btsp.scss';
+import './assets/styles/styles.scss';
 import App from './app';
-
 
 ReactDOM.render(<App/>,document.getElementById("app"))
