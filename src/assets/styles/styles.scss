@@ -71,6 +71,51 @@ $secondary: #267d9a;
     }
 }
 
+.recipe-wrapper{
+    max-width: 80%;
+    margin: 0 auto;
+    background-color: #fff;
+    padding:1.4rem;
+    margin-top:3rem;
+    border-radius: 8px;
+    padding-bottom: 4rem;
+
+}
+
+.recipe-form{
+    width:500px;
+    margin: 0 auto;
+
+    label{
+        color:$primary;
+        font-weight: bold;
+    }
+}
+
+.recipe-btn{
+    width:300px !important;
+    float: none !important;
+    margin:0 auto !important;
+}
+
+.go-back{
+    display: flex;
+    position: absolute;
+    left:8px;
+    cursor: pointer;
+
+    h6{
+        color:$secondary;
+    }
+
+   
+}
+
+.arrow-back-icon{
+    color:$secondary;
+    font-size: 1.3rem;
+}
+
 //Container
 .container-fluid{
     padding-top:1rem;

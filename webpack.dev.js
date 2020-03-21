@@ -5,11 +5,12 @@ module.exports={
     mode:'development',
     output:{
         filename:'bundle.js',
-        path:path.resolve(__dirname,'dist')
+        path:path.resolve(__dirname,'dist'),
+        publicPath: '/',
     },
     devServer: {
         historyApiFallback: true,
-        inline: true,
+        inline:true,
         port: 3000
       },
     module:{

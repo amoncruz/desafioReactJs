@@ -4,19 +4,18 @@ import Login from './pages/login';
 import Recipes from './pages/recipes/index';
 import MyRecipes from './pages/myrecipes';
 import { ToastContainer} from 'react-toastify';
+import EditRecipe from './pages/editrecipes';
 
 const App=()=>{
     return(
-        <>
             <Router>
                 <Switch>
-                    <Route path="/" exact component={Login}/>
-                    <Route path="/recipes" component={Recipes}/>
+                    <Route exact path="/" component={Login}/>
+                    <Route exact path="/recipes" component={Recipes}/>
+                    <Route path="/recipes/:id" component={EditRecipe}/>
                     <Route path="/myrecipes" component={MyRecipes}/>
                 </Switch>
             </Router>
-            <ToastContainer />
-        </>
     )
 }
 
