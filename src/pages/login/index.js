@@ -4,6 +4,7 @@ import Menu from '../../components/NavBar';
 import Header from '../../components/Header';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import { toast } from 'react-toastify';
 
 const Login = (props) => {
 
@@ -29,7 +30,9 @@ const Login = (props) => {
                     validationSchema={SignInSchema}
                     onSubmit={values => {
                         // same shape as initial values
-                        console.log(values);
+                        toast.success("Login Success!", {
+                            position: toast.POSITION.TOP_RIGHT
+                        });
                     }}
                     >
                     {({ errors, touched,handleSubmit,handleChange }) => (
@@ -50,7 +53,7 @@ const Login = (props) => {
                             </FormGroup>
                             <Button color="primary" type="submit">Entrar</Button>
                         </Form> 
-                          )}
+                    )}
                     </Formik>
                     </div>
             </Container>

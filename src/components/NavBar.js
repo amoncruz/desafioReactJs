@@ -1,17 +1,8 @@
 import React, { useState } from 'react';
 import { 
-    Collapse,
     Navbar,
-    NavbarToggler,
     NavbarBrand,
-    Nav,
-    NavItem,
-    NavLink,
-    DropdownToggle,
-    UncontrolledDropdown,
-    DropdownMenu,
-    DropdownItem,
-    NavbarText } from 'reactstrap';
+    } from 'reactstrap';
 
 const Menu = (props) => {
 
