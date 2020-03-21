@@ -19,8 +19,9 @@ import Header from '../../components/Header';
 import { Link } from 'react-router-dom';
 import profile from '../../assets/img/profile.jpg'
 import pizza from '../../assets/img/pizza.jpg'
+import {AiOutlinePlus } from 'react-icons/ai';
 
-const Home = (props) => {
+const MyRecipes = (props) => {
 
     const [isOpen, setIsOpen] = useState(false);
 
@@ -54,7 +55,7 @@ const Home = (props) => {
                 </Collapse>
             </Menu>
             <Container fluid>
-                <Header title="Receitas"/>
+                <Header title="Minhas Receitas"/>
                 <div className="recipes">
                 <CardGroup>
                     <Card>
@@ -102,6 +103,10 @@ const Home = (props) => {
                         <Button color="primary">Button</Button>
                         </CardBody>
                     </Card>
+                    <Card className="add-card">
+                        <AiOutlinePlus className="plus-icon"/>
+                        <Link>Adicionar Receita</Link>
+                    </Card>
                     </CardGroup>
                 </div>
             </Container>
@@ -109,4 +114,4 @@ const Home = (props) => {
        );
 }
 
-export default Home;
+export default MyRecipes;

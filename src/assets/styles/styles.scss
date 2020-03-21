@@ -140,6 +140,23 @@ $secondary: #267d9a;
     font-weight: bold;
 }
 
+.plus-icon{
+    font-size:3rem;
+    color:$primary;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.add-card{
+    height: 20rem;
+    align-items: center;
+    justify-content: center;
+
+    a{
+        font-size:1.2rem;
+    }
+}
+
 .card-body{
     color:$secondary;
 }

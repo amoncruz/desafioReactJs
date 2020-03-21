@@ -1,14 +1,16 @@
 import React from 'react';
 import {BrowserRouter as Router,Switch,Route} from 'react-router-dom'
 import Login from './pages/login';
-import Home from './pages/home';
+import Recipes from './pages/recipes/index';
+import MyRecipes from './pages/myrecipes';
 
 const App=()=>{
     return(
         <Router>
             <Switch>
                 <Route path="/" exact component={Login}/>
-                <Route path="/home" component={Home}/>
+                <Route path="/recipes" component={Recipes}/>
+                <Route path="/myrecipes" component={MyRecipes}/>
             </Switch>
         </Router>
     )
