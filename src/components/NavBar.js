@@ -14,19 +14,12 @@ import {
     NavbarText } from 'reactstrap';
 
 const Menu = (props) => {
-    const [isOpen, setIsOpen] = useState(false);
-
-    const toggle = () => setIsOpen(!isOpen);
 
   return (
     <div>
         <Navbar color="primary" light expand="md">
-            <NavbarBrand href="/">DEV<span>food</span></NavbarBrand> 
-            <NavbarToggler onClick={toggle} />   
-
-            <Collapse isOpen={isOpen} navbar> 
+            <NavbarBrand href="/">DEV<span>food</span></NavbarBrand>
                 {props.children}
-            </Collapse>  
         </Navbar>
     </div>
   );

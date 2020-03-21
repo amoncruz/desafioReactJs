@@ -8,7 +8,7 @@ const Login = (props) => {
     <>
             <Menu/>
             <Container fluid>
-                <Header/>
+                <Header title="Entre em sua Conta"/>
                     <div className="login-wrapper">
                         <Form className="login-form">
                             <FormGroup>
@@ -23,8 +23,6 @@ const Login = (props) => {
                         </Form> 
                     </div>
             </Container>
-        
-         
             </>
        );
 }
