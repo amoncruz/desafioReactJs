@@ -5,11 +5,16 @@ import Header from '../../components/Header';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
+import {useDispatch} from 'react-redux';
+import * as Action from '../../redux/actions/constants';
+import history from '../../history/history';
 
 const Login = (props) => {
 
+    const dispatch=useDispatch();
+
     const SignInSchema = Yup.object().shape({
-        email: Yup.string()
+        username: Yup.string()
           .email('email inválido')
           .required('Campo Obrigatório!'),
         password: Yup.string()
@@ -24,11 +29,14 @@ const Login = (props) => {
                     <div className="login-wrapper">
                     <Formik
                     initialValues={{
-                        email: '',
-                        password: '',
+                        username: '',
+                        password: ''
                     }}
                     validationSchema={SignInSchema}
                     onSubmit={values => {
+                            console.log(values)
+                        dispatch({type:Action.USER_LOGIN_REQUEST,payload:{values}});
+                        props.history.push("/recipes");
                         // same shape as initial values
                         toast.success("Login Success!", {
                             position: toast.POSITION.TOP_RIGHT
@@ -39,9 +47,9 @@ const Login = (props) => {
                         <Form className="login-form" onSubmit={handleSubmit}>
                             <FormGroup>
                                 <Label for="exampleEmail">Email</Label>
-                                <Input type="email" name="email" id="exampleEmail" placeholder="email" onChange={handleChange} />
-                                {errors.email && touched.email ? (
-                                    <div className="error-message">{errors.email}</div>
+                                <Input type="email" name="username" id="exampleEmail" placeholder="email" onChange={handleChange} />
+                                {errors.username && touched.username ? (
+                                    <div className="error-message">{errors.username}</div>
                                 ) : null}
                             </FormGroup>
                             <FormGroup>

@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState, useEffect} from 'react';
 import { Nav,
         Container,
         NavItem,
@@ -19,12 +19,26 @@ import Header from '../../components/Header';
 import { Link } from 'react-router-dom';
 import profile from '../../assets/img/profile.jpg'
 import pizza from '../../assets/img/pizza.jpg'
+import Axios from 'axios';
+import { useSelector } from 'react-redux';
 
 const Recipes = (props) => {
 
     const [isOpen, setIsOpen] = useState(false);
 
     const toggle = () => setIsOpen(!isOpen);
+    const user = useSelector(state=>state.user.user);
+    const [recipes,setRecipes] = useState([]);
+
+    useEffect(()=>{
+        Axios.get("https://receitas.devari.com.br/api/v1/recipe",{headers:{Authorization : `Token ${user.token}`}}).then(res=>{
+            setRecipes(res.data);
+            console.log(res);
+        }).catch(e=>{
+            console.log(e);
+        })
+        console.log(user);
+    },[user])
 
   return (
     <>
@@ -43,8 +57,8 @@ const Recipes = (props) => {
                     </NavItem>
 
                     <NavItem className="sign-out">
-                        <h6>Nome do Fulano</h6>
-                        <img src={profile} className="img-profile-menu"/>
+                        <h6>{user.name}</h6>
+                        <img src={user.image} className="img-profile-menu"/>
                         <Link>
                         Sair
                         </Link>
@@ -57,51 +71,19 @@ const Recipes = (props) => {
                 <Header title="Receitas"/>
                 <div className="recipes">
                 <CardGroup>
-                    <Card>
-                        <CardImg top width="100%" src={pizza} />
-                        <CardBody>
-                        <CardTitle>Card title</CardTitle>
-                        <CardSubtitle>Card subtitle</CardSubtitle>
-                        <CardText>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</CardText>
-                        <Button color="primary">Button</Button>
-                        </CardBody>
-                    </Card>
-                    <Card>
-                        <CardImg top width="100%" src={pizza} />
-                        <CardBody>
-                        <CardTitle>Card title</CardTitle>
-                        <CardSubtitle>Card subtitle</CardSubtitle>
-                        <CardText>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</CardText>
-                        <Button color="primary">Button</Button>
-                        </CardBody>
-                    </Card>
-                    <Card>
-                        <CardImg top width="100%" src={pizza} />
-                        <CardBody>
-                        <CardTitle>Card title</CardTitle>
-                        <CardSubtitle>Card subtitle</CardSubtitle>
-                        <CardText>This card has supporting text below as a natural lead-in to additional content.</CardText>
-                        <Button color="primary">Button</Button>
-                        </CardBody>
-                    </Card>
-                    <Card>
-                        <CardImg top width="100%" src={pizza} />
-                        <CardBody>
-                        <CardTitle>Card title</CardTitle>
-                        <CardSubtitle>Card subtitle</CardSubtitle>
-                        <CardText>This card has supporting text below as a natural lead-in to additional content.</CardText>
-                        <Button color="primary">Button</Button>
-                        </CardBody>
-                    </Card>
-                    <Card>
-                        <CardImg top width="100%" src={pizza} />
-                        <CardBody>
-                        <CardTitle>Card title</CardTitle>
-                        <CardSubtitle>Card subtitle</CardSubtitle>
-                        <CardText>This card has supporting text below as a natural lead-in to additional content.</CardText>
-                        <Button color="primary">Button</Button>
-                        </CardBody>
-                    </Card>
+                    {recipes.map(recipe=>{
+                        return(
+                        <Card>
+                            <CardImg top width="100%" src={pizza} />
+                            <CardBody>
+                            <CardTitle>{recipe.title}</CardTitle>
+                            <CardText>{recipe.description}</CardText>
+                            <Button color="primary">Button</Button>
+                            </CardBody>
+                        </Card>
+
+                        );
+                    })}
                     </CardGroup>
                 </div>
             </Container>
