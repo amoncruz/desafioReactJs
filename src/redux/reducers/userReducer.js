@@ -7,8 +7,12 @@ export function user(state=INITIAL_STATE,action){
         case Action.USER_LOGIN_SUCCESS:
             return {...state,user:action.payload}
 
+        case Action.USER_LOGOUT:
+            return {user:''};
+
         default: 
         return state;
+
     }
 
 }

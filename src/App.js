@@ -5,17 +5,14 @@ import Recipes from './pages/recipes/index';
 import MyRecipes from './pages/myrecipes';
 import { ToastContainer} from 'react-toastify';
 import EditRecipe from './pages/editrecipes';
+import Routes from './routes';
 
 const App=()=>{
     return(
-            <Router>
-                <Switch>
-                    <Route exact path="/" component={Login}/>
-                    <Route exact path="/recipes" component={Recipes}/>
-                    <Route path="/recipes/:id" component={EditRecipe}/>
-                    <Route path="/myrecipes" component={MyRecipes}/>
-                </Switch>
-            </Router>
+        <>
+            <Routes/>
+            <ToastContainer autoClose={2000}/>
+        </>
     )
 }
 

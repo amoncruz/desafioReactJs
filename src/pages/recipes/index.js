@@ -47,13 +47,13 @@ const Recipes = (props) => {
             <Collapse isOpen={isOpen} navbar> 
                 <Nav className="mx-auto" navbar>
                     <NavItem>
-                        <NavLink href="/receitas">Receitas</NavLink>
+                        <NavLink href="/recipes">Receitas</NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink href="/minhasreceitas">Minhas Receitas</NavLink>
+                        <NavLink href="/myrecipes">Minhas Receitas</NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink href="/receitas/add">Adicionar Receitas</NavLink>
+                        <NavLink href="/recipes/0">Adicionar Receitas</NavLink>
                     </NavItem>
 
                     <NavItem className="sign-out">
@@ -63,7 +63,6 @@ const Recipes = (props) => {
                         Sair
                         </Link>
                     </NavItem>
-           
                 </Nav>
                 </Collapse>
             </Menu>
@@ -78,7 +77,7 @@ const Recipes = (props) => {
                             <CardBody>
                             <CardTitle>{recipe.title}</CardTitle>
                             <CardText>{recipe.description}</CardText>
-                            <Button color="primary">Button</Button>
+                                <Link className="edit-link" to={`/recipes/detail/${recipe.id}`}>Ver Receita</Link>
                             </CardBody>
                         </Card>
 
