@@ -67,6 +67,27 @@ $secondary: #267d9a;
     }
 }
 
+.nav-item {
+        display: flex;
+        align-items: center;
+    a{
+        color:white !important; 
+        font-size:1rem;
+        font-family: 'Roboto', sans-serif;
+        letter-spacing: 1px;
+        margin: 0.4rem;
+        text-decoration: none;
+
+        &:hover{
+            color:$secondary !important;
+        }
+        
+    }
+}
+a.active{
+    color:$secondary !important;
+}
+
 .recipe-wrapper{
     max-width: 80%;
     margin: 0 auto;
@@ -79,7 +100,7 @@ $secondary: #267d9a;
 }
 
 .recipe-form{
-    width:500px;
+    width:50%;
     margin: 0 auto;
 
     label{
@@ -89,7 +110,7 @@ $secondary: #267d9a;
 }
 
 .recipe-btn{
-    width:300px !important;
+    width: 60% !important;
     float: none !important;
     margin:0 auto !important;
 }
@@ -168,6 +189,8 @@ $secondary: #267d9a;
         justify-content: flex-start;
         align-items:flex-start;
         flex-wrap: wrap;
+        width: 100%;
+        margin: 0 auto;
     }
 }
 
@@ -176,15 +199,24 @@ $secondary: #267d9a;
 }
 
 .card{
-    max-width: 320px !important;
-    min-width: 320px !important;
-    margin:1.5rem !important;
+    max-width: 24% !important;
+    min-width: 24% !important;
+    margin: 1.5rem 4.5% !important;
     border-radius: 6px !important;
 }
 
 .card-title{
     color: $primary;
     font-weight: bold;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.card-text{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    height: 4.4rem;
 }
 
 .plus-icon{
@@ -248,6 +280,17 @@ $secondary: #267d9a;
     }
 }
 
+.modal-dialog{
+    margin-top: 6rem;
+}
+
+.modal-body{
+    height:150px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
 @media only screen and (max-width: 767px) {
     .sign-out{
         margin-left:0 !important;
@@ -266,12 +309,14 @@ $secondary: #267d9a;
 
     .card{
         margin:1rem auto !important;
-        max-width: 250px !important; 
-        min-width: 250px !important; 
+        max-width: 70% !important; 
+        min-width: 70% !important; 
+
     }
 
     .login-wrapper{
         margin:2rem;
+        max-width: 90%;
     }
 
     .navbar{
@@ -284,4 +329,14 @@ $secondary: #267d9a;
             font-size: 1.3rem ;
         }
     }
+
+    .recipe-form{
+        width:100%;
+    
+    }
+  }
+
+  @media only screen and (max-width: 767px) {
+
+
   }

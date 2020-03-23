@@ -1,13 +1,11 @@
 import React from 'react';
 import { Button, Form, FormGroup, Label, Input,Container } from 'reactstrap';
-import Menu from '../../components/NavBar';
 import Header from '../../components/Header';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
 import {useDispatch} from 'react-redux';
 import * as Action from '../../redux/actions/constants';
-import history from '../../history/history';
 
 const Login = (props) => {
 
@@ -23,7 +21,6 @@ const Login = (props) => {
 
   return (
     <>
-            <Menu/>
             <Container fluid>
                 <Header title="Entre em sua Conta"/>
                     <div className="login-wrapper">
@@ -38,9 +35,6 @@ const Login = (props) => {
                         dispatch({type:Action.USER_LOGIN_REQUEST,payload:{values}});
                         props.history.push("/recipes");
                         // same shape as initial values
-                        toast.success("Login Success!", {
-                            position: toast.POSITION.TOP_RIGHT
-                        });
                     }}
                     >
                     {({ errors, touched,handleSubmit,handleChange }) => (

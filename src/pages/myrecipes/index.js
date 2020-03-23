@@ -2,73 +2,42 @@ import React,{useState, useEffect} from 'react';
 import Menu from '../../components/NavBar';
 import Header from '../../components/Header';
 import { Link } from 'react-router-dom';
-import profile from '../../assets/img/profile.jpg'
 import pizza from '../../assets/img/pizza.jpg'
 import {AiOutlinePlus } from 'react-icons/ai';
-import { Nav,
+import {
         Container,
-        NavItem,
-        NavLink,
         CardBody,
         CardGroup,
         Card,
         CardTitle,
         CardImg,
-        CardSubtitle,
         CardText,
-        Button,
-        Collapse,
-        NavbarToggler
      } from 'reactstrap';
-import { useSelector } from 'react-redux';
-import Axios from 'axios';
+import { useSelector, useDispatch } from 'react-redux';
+import {Api} from '../../services/api'
+import * as Action from '../../redux/actions/constants'
+import { decryptToken } from '../../auth/auth';
 
 const MyRecipes = (props) => {
-
-    const [isOpen, setIsOpen] = useState(false);
-
-    const toggle = () => setIsOpen(!isOpen);
 
     const [recipes,setRecipes]=useState([]);
 
     const user = useSelector(state=>state.user.user);
 
+    const dispatch = useDispatch();
+
     useEffect(()=>{
-        Axios.get(`https://receitas.devari.com.br/api/v1/recipe?user=${user.id}`,{headers:{Authorization : `Token ${user.token}`}}).then(res=>{
+        dispatch({type:Action.TOGGLE_LOADING});
+        Api.get(`/recipe?user=${user.id}`,{headers:{Authorization : `Token ${decryptToken(user.token)}`}}).then(res=>{
             setRecipes(res.data);
+            dispatch({type:Action.TOGGLE_LOADING});
         }).catch(e=>{
-            console.log(e);
+            console.log(e); 
         })
-        console.log('updated!');
     },[]);
 
   return (
     <>
-            <Menu>
-            <NavbarToggler onClick={toggle}/>   
-            <Collapse isOpen={isOpen} navbar> 
-                <Nav className="mx-auto" navbar>
-                    <NavItem>
-                        <NavLink href="/recipes">Receitas</NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink href="/myrecipes">Minhas Receitas</NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink href="/recipes/0">Adicionar Receitas</NavLink>
-                    </NavItem>
-
-                    <NavItem className="sign-out">
-                        <h6>{user.name}</h6>
-                        <img src={user.image} className="img-profile-menu"/>
-                        <Link>
-                        Sair
-                        </Link>
-                    </NavItem>
-           
-                </Nav>
-                </Collapse>
-            </Menu>
             <Container fluid>
                 <Header title="Minhas Receitas"/>
                 <div className="recipes">
@@ -80,14 +49,14 @@ const MyRecipes = (props) => {
                             <CardBody>
                             <CardTitle>{recipe.title}</CardTitle>
                             <CardText>{recipe.description}</CardText>
-                            <Link className="edit-link" to={`/recipes/${recipe.id}`}>Editar</Link>
+                            <Link className="edit-link" to={`/myrecipes/update/${recipe.id}`}>Editar</Link>
                             </CardBody>
                         </Card>
                         )
                     })}
                     <Card className="add-card">
                         <AiOutlinePlus className="plus-icon"/>
-                        <Link to="/recipes/0">Adicionar Receita</Link>
+                        <Link to="/myrecipes/create">Adicionar Receita</Link>
                     </Card>
                     </CardGroup>
                 </div>

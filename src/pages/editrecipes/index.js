@@ -1,28 +1,22 @@
-import React,{useState, useEffect, cloneElement} from 'react';
+import React,{useState, useEffect} from 'react';
 import { Button,
         Form, 
         FormGroup,
         Label,
         Input,
         Container,
-        Collapse,
-        NavbarToggler,
-        NavItem,
-        NavLink,
-        Nav,
         } from 'reactstrap';
-import Menu from '../../components/NavBar';
 import Header from '../../components/Header';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
-import { Link, useParams } from 'react-router-dom';
-import profile from '../../assets/img/profile.jpg'
-import Axios from 'axios';
+import { useParams } from 'react-router-dom';
+import {Api} from '../../services/api';
 import { useSelector, useDispatch } from 'react-redux';
 import {FaRegTrashAlt} from 'react-icons/fa'
-import * as Action from '../../redux/actions/constants';
 import Swal from 'sweetalert2'
+import * as Action from '../../redux/actions/constants' 
+import { decryptToken } from '../../auth/auth';
 
 const EditRecipe = (props) => {
 
@@ -37,10 +31,6 @@ const EditRecipe = (props) => {
         .required('Campo Obrigatório!')
     });
 
-    const [isOpen, setIsOpen] = useState(false);
-
-    const toggle = () => setIsOpen(!isOpen);
-
     let { id } = useParams();
 
     const [recipe,setRecipe]=useState({});
@@ -48,22 +38,26 @@ const EditRecipe = (props) => {
     const user = useSelector(state=>state.user.user);
 
     const [categories,setCategories]=useState([]);
-
-    const dispatch = useDispatch();
+    
+    const dispatch=useDispatch();
 
     useEffect(()=>{
-        
-        Axios.get(`https://receitas.devari.com.br/api/v1/category`,{headers:{Authorization : `Token ${user.token}`}}).then(res=>{
+        dispatch({type:Action.TOGGLE_LOADING});
+        Api.get(`/category`,{headers:{Authorization : `Token ${decryptToken(user.token)}`}}).then(res=>{
             setCategories(res.data);
-            console.log(res.data);
+
+            if(id===undefined){
+                dispatch({type:Action.TOGGLE_LOADING});
+            }
+
         }).catch(e=>{
             console.log(e)
         })
 
-        if(parseInt(id)!==0){
-            Axios.get(`https://receitas.devari.com.br/api/v1/recipe/${id}`,{headers:{Authorization : `Token ${user.token}`}}).then(res=>{
+        if((id)!==undefined){
+            Api.get(`/recipe/${id}`,{headers:{Authorization : `Token ${decryptToken(user.token)}`}}).then(res=>{
                 setRecipe(res.data);
-                console.log(res.data);
+                dispatch({type:Action.TOGGLE_LOADING});
             }).catch(e=>{
                 console.log(e);
             })
@@ -84,7 +78,7 @@ const EditRecipe = (props) => {
           }).then((result) => {
             if (result.value) {
                 
-                Axios.delete(`https://receitas.devari.com.br/api/v1/recipe/${id}`,{headers:{Authorization : `Token ${user.token}`}}).then(res=>{
+                Api.delete(`/recipe/${id}`,{headers:{Authorization : `Token ${decryptToken(user.token)}`}}).then(res=>{
                     Swal.fire(
                         'Deleted!',
                         'Receita excluída!',
@@ -97,40 +91,9 @@ const EditRecipe = (props) => {
 
     }
 
-    const handleLogout=()=>{
-        dispatch({type:Action.USER_LOGOUT})
-        props.history.push("/");
-    }
-
   return (
     <>
-            <Menu>
-            <NavbarToggler onClick={toggle}/>   
-            <Collapse isOpen={isOpen} navbar> 
-                <Nav className="mx-auto" navbar>
-                    <NavItem>
-                        <NavLink href="/recipes">Receitas</NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink href="/myrecipes">Minhas Receitas</NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink href="/recipes/0">Adicionar Receitas</NavLink>
-                    </NavItem>
-
-                    <NavItem className="sign-out">
-                        <h6>{user.name}</h6>
-                        <img src={user.image} className="img-profile-menu"/>
-                        <Link onClick={()=>handleLogout()}>
-                        Sair
-                        </Link>
-                    </NavItem>
-           
-                </Nav>
-                </Collapse>
-            </Menu>
             <Container fluid>
-
                 <Header title="Adicionar Receita" back history={props.history}/>
                     <div className="recipe-wrapper">
                         {parseInt(id)!==0 &&(
@@ -153,23 +116,26 @@ const EditRecipe = (props) => {
                             user:user.id
                         };
 
-                        if(parseInt(id)===0){
-                            Axios.post(`https://receitas.devari.com.br/api/v1/recipe/`,newRecipe,{headers:{Authorization:`Token ${user.token}`}}).then(res=>{
+                        if(id===undefined){
+                            Api.post(`/recipe/`,newRecipe,{headers:{Authorization:`Token ${decryptToken(user.token)}`}}).then(res=>{
                                if(res.status===201){
                                 toast.success("Receita Criada com Sucesso", {
                                     position: toast.POSITION.TOP_RIGHT
                                 });
+
+                                props.history.push('/myrecipes');
                                 }
                             });
                         }else{
-                            Axios.put(`https://receitas.devari.com.br/api/v1/recipe/${id}`,newRecipe,{headers:{Authorization:`Token ${user.token}`}}).then(res=>{
-                                toast.success("Receita Atulizada com Sucesso", {
-                                    position: toast.POSITION.TOP_RIGHT
-                                });
+                            Api.put(`/recipe/${id}/`,newRecipe,{headers:{Authorization:`Token ${decryptToken(user.token)}`}}).then(res=>{
+                                if(res.status===200){
+                                    toast.success("Receita Atulizada com Sucesso", {
+                                        position: toast.POSITION.TOP_RIGHT
+                                    });
+                                    props.history.push('/myrecipes');
+                                }
                             })
                         }
-                        // same shape as initial values
-                       
                     }}
                     >
                     {({ errors, touched,handleSubmit,handleChange,values }) => (
@@ -195,7 +161,6 @@ const EditRecipe = (props) => {
                                     <div className="error-message">{errors.categoria}</div>
                                 ) : null}
                             </FormGroup>
-
                             <FormGroup>
                                 <Label for="descricao">Decrição</Label>
                                 <Input type="textarea" name="descricao" onChange={handleChange} row="3" value={values.descricao}  />

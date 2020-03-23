@@ -1,8 +1,10 @@
 import {combineReducers} from 'redux';
-import {user} from './userReducer'
+import {user} from './userReducer';
+import {loading} from './loadingReducer';
 
 const rootReducer=combineReducers({
-    user
+    user,
+    loading
 });
 
 export default rootReducer;

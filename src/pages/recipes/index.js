@@ -1,71 +1,41 @@
 import React,{useState, useEffect} from 'react';
-import { Nav,
+import {
         Container,
-        NavItem,
-        NavLink,
         CardBody,
         CardGroup,
         Card,
         CardTitle,
         CardImg,
-        CardSubtitle,
         CardText,
-        Button,
-        Collapse,
-        NavbarToggler
      } from 'reactstrap';
-import Menu from '../../components/NavBar';
 import Header from '../../components/Header';
 import { Link } from 'react-router-dom';
-import profile from '../../assets/img/profile.jpg'
 import pizza from '../../assets/img/pizza.jpg'
-import Axios from 'axios';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import {Api} from '../../services/api';
+import * as Action from '../../redux/actions/constants';
+import { decryptToken } from '../../auth/auth';
 
 const Recipes = (props) => {
 
-    const [isOpen, setIsOpen] = useState(false);
-
-    const toggle = () => setIsOpen(!isOpen);
     const user = useSelector(state=>state.user.user);
     const [recipes,setRecipes] = useState([]);
+    const dispatch=useDispatch();
 
     useEffect(()=>{
-        Axios.get("https://receitas.devari.com.br/api/v1/recipe",{headers:{Authorization : `Token ${user.token}`}}).then(res=>{
+        dispatch({type:Action.TOGGLE_LOADING});
+        console.log(decryptToken(user.token));
+        Api.get('/recipe',{headers:{Authorization : `Token ${decryptToken(user.token)}`}}).then(res=>{
             setRecipes(res.data);
-            console.log(res);
+            dispatch({type:Action.TOGGLE_LOADING})
         }).catch(e=>{
             console.log(e);
         })
-        console.log(user);
+
     },[user])
 
   return (
     <>
-            <Menu>
-            <NavbarToggler onClick={toggle}/>   
-            <Collapse isOpen={isOpen} navbar> 
-                <Nav className="mx-auto" navbar>
-                    <NavItem>
-                        <NavLink href="/recipes">Receitas</NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink href="/myrecipes">Minhas Receitas</NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink href="/recipes/0">Adicionar Receitas</NavLink>
-                    </NavItem>
-
-                    <NavItem className="sign-out">
-                        <h6>{user.name}</h6>
-                        <img src={user.image} className="img-profile-menu"/>
-                        <Link>
-                        Sair
-                        </Link>
-                    </NavItem>
-                </Nav>
-                </Collapse>
-            </Menu>
             <Container fluid>
                 <Header title="Receitas"/>
                 <div className="recipes">
