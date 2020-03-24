@@ -186,7 +186,7 @@ a.active{
 
     .card-group{
         display: flex;
-        justify-content: flex-start;
+        justify-content: center;
         align-items:flex-start;
         flex-wrap: wrap;
         width: 100%;
@@ -199,9 +199,9 @@ a.active{
 }
 
 .card{
-    max-width: 24% !important;
-    min-width: 24% !important;
-    margin: 1.5rem 4.5% !important;
+    max-width: 350px;
+    min-width: 350px;
+    margin: 2rem !important;
     border-radius: 6px !important;
 }
 

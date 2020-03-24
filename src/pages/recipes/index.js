@@ -43,7 +43,7 @@ const Recipes = (props) => {
                     {recipes.map(recipe=>{
                         return(
                         <Card>
-                            <CardImg top width="100%" src={pizza} />
+                            <CardImg top width="100%" src={recipe.category?recipe.category.image:pizza} />
                             <CardBody>
                             <CardTitle>{recipe.title}</CardTitle>
                             <CardText>{recipe.description}</CardText>

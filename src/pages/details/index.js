@@ -6,6 +6,7 @@ import { useParams } from 'react-router-dom';
 import Axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import * as Action from '../../redux/actions/constants';
+import { decryptToken } from '../../auth/auth';
 
 const DetailsRecipe = (props) => {
 
@@ -18,7 +19,7 @@ const DetailsRecipe = (props) => {
         
         dispatch({type:Action.TOGGLE_LOADING});
         if(parseInt(id)!==0){
-            Axios.get(`https://receitas.devari.com.br/api/v1/recipe/${id}`,{headers:{Authorization : `Token ${user.token}`}}).then(res=>{
+            Axios.get(`https://receitas.devari.com.br/api/v1/recipe/${id}`,{headers:{Authorization : `Token ${decryptToken(user.token)}`}}).then(res=>{
                 setRecipe(res.data);
 
                 dispatch({type:Action.TOGGLE_LOADING});

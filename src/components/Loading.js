@@ -4,7 +4,8 @@ import {
     ModalBody,
     Spinner
     } from 'reactstrap'
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import * as Action from '../redux/actions/constants'
 
 const Loading=(props)=>{
 
@@ -13,9 +14,18 @@ const Loading=(props)=>{
       } = props;
     
       const loading = useSelector(state=>state.loading.loading);
+      const dispatch =useDispatch();
 
       useEffect(()=>{
-          
+
+        setTimeout(()=>{
+
+            if(loading===true){
+                dispatch({type:Action.TOGGLE_LOADING});
+            }
+
+        },8000)
+         
       },[])
 
     return(
