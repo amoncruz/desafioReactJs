@@ -112,7 +112,7 @@ const EditRecipe = (props) => {
                         let newRecipe={
                             title:values.nome,
                             description:values.descricao,
-                            category:values.category,
+                            category:values.categoria,
                             user:user.id
                         };
 
